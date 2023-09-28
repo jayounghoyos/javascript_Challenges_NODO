@@ -1,5 +1,6 @@
 const snake = document.getElementById("snake");
 const food = document.getElementById("food");
+const scoreDisplay = document.getElementById("score");
 
 let snakeX = 0;
 let snakeY = 0;
@@ -7,6 +8,7 @@ let foodX = 0;
 let foodY = 0;
 let direction = "right";
 let snakeBody = [];
+let score = 0;
 
 function getRandomPosition() {
     return Math.floor(Math.random() * 15) * 20;
@@ -38,9 +40,14 @@ function checkCollision() {
         snakeBody.some((segment) => segment.x === snakeX && segment.y === snakeY)
     ) {
         clearInterval(gameLoop);
-        alert("Game Over!");
+        alert("Game Over! Score: " + score);
         location.reload();
     }
+}
+
+function increaseScore() {
+    score += 10;
+    scoreDisplay.textContent = "Score: " + score;
 }
 
 function updateGame() {
@@ -65,6 +72,7 @@ function updateGame() {
     if (snakeX === foodX && snakeY === foodY) {
         updateFoodPosition();
         updateSnake();
+        increaseScore();
     } else {
         checkCollision();
         updateSnake();
@@ -91,4 +99,4 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-const gameLoop = setInterval(updateGame, 300);
+const gameLoop = setInterval(updateGame, 200);
